@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>pretty logging message — msg • spsUti</title>
+<title>pretty logging message — msg • spsUtil</title>
 
 
 <!-- jquery -->
@@ -48,7 +48,18 @@ Then the message will be colorful, other wise no color
 
 
 &quot;INFO&quot; level spawns message, &quot;WARNING&quot; is warning, &quot;ERROR&quot; spawns stop,
-other levels use cat." />
+other levels use cat.
+spsinfo, spswarn, spserror are higher level wrappers of msg. The
+only difference is they have SPS- prefix.
+spsinfo has an additional
+arg verbose. This arg works similarly to all other verbose args in
+SPS:
+if not specified, it follows the project option. If SPS option verbose is
+set to TRUE, message will be displayed; if FALSE, mute the message.
+It can be be forced to TRUE and FALSE. TRUE will forcibly generate the msg, and FALSE
+will mute the message.
+
+" />
 
 
 
@@ -79,7 +90,7 @@ other levels use cat." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">spsUti</a>
+        <a class="navbar-link" href="../index.html">spsUtil</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
@@ -98,7 +109,7 @@ other levels use cat." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/lz100/spsUti/">
+  <a href="https://github.com/lz100/spsUtil/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -117,7 +128,7 @@ other levels use cat." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>pretty logging message</h1>
-    <small class="dont-index">Source: <a href='https://github.com/lz100/spsUti/blob/master/R/spsUti.R'><code>R/spsUti.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/lz100/spsUtil/blob/master/R/spsUtil.R'><code>R/spsUtil.R</code></a></small>
     <div class="hidden name"><code>msg.Rd</code></div>
     </div>
 
@@ -131,6 +142,17 @@ Then the message will be colorful, other wise no color</p></li>
 
 <p>"INFO" level spawns <code>message</code>, "WARNING" is <code>warning</code>, "ERROR" spawns <code>stop</code>,
 other levels use <code>cat</code>.</p>
+<p><code>spsinfo</code>, <code>spswarn</code>, <code>spserror</code> are higher level wrappers of <code>msg</code>. The
+only difference is they have <code>SPS-</code> prefix.</p>
+<p><code>spsinfo</code> has an additional
+arg <code>verbose</code>. This arg works similarly to all other <code>verbose</code> args in
+SPS:</p><ol>
+<li><p>if not specified, it follows the project option. If SPS option <code>verbose</code> is
+set to <code>TRUE</code>, message will be displayed; if <code>FALSE</code>, mute the message.</p></li>
+<li><p>It can be be forced to <code>TRUE</code> and <code>FALSE</code>. <code>TRUE</code> will forcibly generate the msg, and <code>FALSE</code>
+will mute the message.</p></li>
+</ol>
+
     </div>
 
     <pre class="usage"><span class='fu'>msg</span><span class='op'>(</span>
@@ -141,7 +163,13 @@ other levels use <code>cat</code>.</p>
   warning_text <span class='op'>=</span> <span class='st'>"WARNING"</span>,
   error_text <span class='op'>=</span> <span class='st'>"ERROR"</span>,
   use_color <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span>
+
+<span class='fu'>spsinfo</span><span class='op'>(</span><span class='va'>msg</span>, verbose <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='fu'>spswarn</span><span class='op'>(</span><span class='va'>msg</span><span class='op'>)</span>
+
+<span class='fu'>spserror</span><span class='op'>(</span><span class='va'>msg</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,19 +205,37 @@ Other custom levels will work too.</p></td>
       <th>use_color</th>
       <td><p>bool, default <code>TRUE</code>, to use color if supported?</p></td>
     </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>bool, default get from sps project options, can be overwritten</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>see description</p>
+    <p>see description and details</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    
+<ol>
+<li><p>If <code>use_color</code> is <code>TRUE</code>, output message will forcibly use color if the console has color
+support, ignore SPS <code>use_crayon</code> option.</p></li>
+<li><p>If <code>use_color</code> is <code>FALSE</code>, but you are using within SPS framework, the <code>use_crayon</code> option
+is set to <code>TRUE</code>, color will be used.</p></li>
+<li><p>Otherwise message will be no color.</p></li>
+</ol>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>msg</span><span class='op'>(</span><span class='st'>"this is info"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;font-weight: bold;'>[INFO] 2021-02-09 22:12:11 this is info</span><span></span></div><div class='input'><span class='fu'>msg</span><span class='op'>(</span><span class='st'>"this is warning"</span>, <span class='st'>"warning"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: </span><span style='color: #FFAF00;font-weight: bold;'>[WARNING] 2021-02-09 22:12:11 this is warning</span><span></span></div><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/try.html'>try</a></span><span class='op'>(</span><span class='fu'>msg</span><span class='op'>(</span><span class='st'>"this is error"</span>, <span class='st'>"error"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Error : </span><span style='color: #BB0000;font-weight: bold;'>[ERROR] 2021-02-09 22:12:11 this is error</span><span></div><div class='input'><span class='fu'>msg</span><span class='op'>(</span><span class='st'>"this is another level"</span>, <span class='st'>"my level"</span>, <span class='st'>"green"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #00BB00;font-weight: bold;'>[my level] 2021-02-09 22:12:11 this is another level</span><span></div><div class='input'>
-</div></span></pre>
+</div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;font-weight: bold;'>[INFO] 2021-02-12 12:19:40 this is info</span><span></span></div><div class='input'><span class='fu'>msg</span><span class='op'>(</span><span class='st'>"this is warning"</span>, <span class='st'>"warning"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: </span><span style='color: #FFAF00;font-weight: bold;'>[WARNING] 2021-02-12 12:19:40 this is warning</span><span></span></div><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/try.html'>try</a></span><span class='op'>(</span><span class='fu'>msg</span><span class='op'>(</span><span class='st'>"this is error"</span>, <span class='st'>"error"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Error : </span><span style='color: #BB0000;font-weight: bold;'>[ERROR] 2021-02-12 12:19:40 this is error</span><span></div><div class='input'><span class='fu'>msg</span><span class='op'>(</span><span class='st'>"this is another level"</span>, <span class='st'>"my level"</span>, <span class='st'>"green"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #00BB00;font-weight: bold;'>[my level] 2021-02-12 12:19:40 this is another level</span><span></div><div class='input'><span class='fu'>spsinfo</span><span class='op'>(</span><span class='st'>"some msg, verbose false"</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='co'># will not show up</span>
+<span class='fu'>spsinfo</span><span class='op'>(</span><span class='st'>"some msg, verbose true"</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>[SPS-INFO] 2021-02-12 12:19:40 some msg, verbose true</span></div><div class='input'><span class='fu'>spswarn</span><span class='op'>(</span><span class='st'>"sps warning"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: [SPS-WARNING] 2021-02-12 12:19:40 sps warning</span></div><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/try.html'>try</a></span><span class='op'>(</span><span class='fu'>spserror</span><span class='op'>(</span><span class='st'>"sps error"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Error : [SPS-ERROR] 2021-02-12 12:19:40 sps error</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

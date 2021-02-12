@@ -1,4 +1,4 @@
-# spsUti
+# spsUtil
 
 The {[systemPipeShiny](https://github.com/systemPipeR/systemPipeShiny)} (SPS) framework comes with many useful utility functions. 
 However, installing the whole framework is heavy and takes some time. If you 

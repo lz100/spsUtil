@@ -11,7 +11,7 @@ NULL
 #' @description Useful if you want to suppress cat or print
 #' @param x function or expression or value assignment expression
 #' @export
-#' @return If your original fucntions has a return, it will return in
+#' @return If your original functions has a return, it will return in
 #' `invisible(x)`
 #' @examples
 #' quiet(print(1))
@@ -59,6 +59,16 @@ checkNameSpace <- function(packages, quietly = FALSE, from = "CRAN") {
 #' "INFO" level spawns `message`, "WARNING" is `warning`, "ERROR" spawns `stop`,
 #' other levels use `cat`.
 #'
+#'`spsinfo`, `spswarn`, `spserror` are higher level wrappers of `msg`. The
+#' only difference is they have `SPS-` prefix.
+#'
+#' `spsinfo` has an additional
+#' arg `verbose`. This arg works similarly to all other `verbose` args in
+#' SPS:
+#' 1. if not specified, it follows the project option. If SPS option `verbose` is
+#' set to `TRUE`, message will be displayed; if `FALSE`, mute the message.
+#' 2. It can be be forced to `TRUE` and `FALSE`. `TRUE` will forcibly generate the msg, and `FALSE`
+#' will mute the message.
 #' @importFrom crayon blue make_style red
 #' @param msg a character string of message or a vector of character strings,
 #' each item in the vector presents one line of words
@@ -70,14 +80,23 @@ checkNameSpace <- function(packages, quietly = FALSE, from = "CRAN") {
 #' @param warning_text warning level text prefix, use with "WARNING" level
 #' @param error_text error level text prefix, use with "ERROR" level
 #' @param use_color bool, default `TRUE`, to use color if supported?
-#' @return see description
+#' @return see description and details
+#' @details
+#' 1. If `use_color` is `TRUE`, output message will forcibly use color if the console has color
+#' support, ignore SPS `use_crayon` option.
+#' 2. If `use_color` is `FALSE`, but you are using within SPS framework, the `use_crayon` option
+#' is set to `TRUE`, color will be used.
+#' 3. Otherwise message will be no color.
+#' @export
 #' @examples
 #' msg("this is info")
 #' msg("this is warning", "warning")
 #' try(msg("this is error", "error"))
 #' msg("this is another level", "my level", "green")
-#'
-#' @export
+#' spsinfo("some msg, verbose false", verbose = FALSE) # will not show up
+#' spsinfo("some msg, verbose true", verbose = TRUE)
+#' spswarn("sps warning")
+#' try(spserror("sps error"))
 msg <- function(msg,
                 level = "INFO",
                 .other_color="white",
@@ -109,6 +128,23 @@ msg <- function(msg,
         cat(other(msg), sep = "\n")
     )
 }
+
+#' @param verbose bool, default get from sps project options, can be overwritten
+#' @rdname msg
+#' @export
+spsinfo <- function(msg, verbose=NULL) {
+    verbose <- if(is.null(verbose)) spsOption('verbose')
+    else {assertthat::assert_that(is.logical(verbose)); verbose}
+    if(verbose) msg(msg, "info", info_text =  "SPS-INFO", use_color = FALSE)
+}
+
+#' @rdname msg
+#' @export
+spswarn <- function(msg) msg(msg, "warning", warning_text = "SPS-WARNING", use_color = FALSE)
+
+#' @rdname msg
+#' @export
+spserror <- function(msg) msg(msg, "error", error_text = "SPS-ERROR", use_color = FALSE)
 
 
 #' Empty objects and FALSE will return FALSE
@@ -147,6 +183,7 @@ emptyIsFalse <- function(x){
 #' @description check if a URL can be reached, return TRUE if yes and FALSE if
 #' cannot or with other status code
 #' @export
+#' @return `TRUE` if url is reachable, `FALSE` if not
 #' @examples
 #' checkUrl("https://google.com")
 #' try(checkUrl("https://randomwebsite123.com", 1))
@@ -168,4 +205,50 @@ checkUrl <- function(url, timeout = 5){
 }
 
 
+#' Remove ANSI color code
+#' @description Remove ANSI pre-/suffix-fix in a character string.
+#' @param string string, length 1
+#' @export
+#' @return string with out ANSI characters
+#' @examples
+#' remove_ANSI("\033[34m\033[1ma\033[22m\033[39m")
+remove_ANSI <- function(string) {
+    assertthat::assert_that(is.character(string) && length(string) == 1)
+    ANSI <- paste0("(?:(?:\\x{001b}\\[)|\\x{009b})(?:(?:[0-9]{1,3})?(?:",
+                   "(?:;[0-9]{0,3})*)?[A-M|f-m])|\\x{001b}[A-M]")
+    gsub(ANSI, "", string, perl = TRUE)
+}
 
+
+#' Get or set SPS options
+#'
+#' @param opt string, length 1, what option you want to get or set
+#' @param value if this is not `NULL`, this function will set the
+#' option you choose to this value
+#' @param empty_is_false bool, when trying to get an option value, if the
+#' option is `NULL`, `NA`, `""` or length is 0, return `FALSE`?
+#' @return return the option value if value exists; return `FALSE` if the value
+#' is empty, like `NULL`, `NA`, `""`; return `NULL` if `empty_is_false = FALSE`;
+#'  see [emptyIsFalse]
+#'
+#'  If `value != NULL` will set the option to this new value, no returns.
+#' @export
+#' @examples
+#' spsOption("test1") # get a not existing option
+#' spsOption("test1", 1) # set the value
+#' spsOption("test1") # get the value again
+#' spsOption("test2")
+#' spsOption("test2", empty_is_false = FALSE)
+spsOption <- function(opt, value = NULL, empty_is_false = TRUE){
+    assertthat::assert_that(is.character(opt) && length(opt) == 1)
+    if(assertthat::not_empty(value))
+        options(sps = getOption('sps') %>% {.[[opt]] <- value; .})
+    else {
+        get_value <- getOption('sps')[[opt]]
+        if(!emptyIsFalse(get_value)){
+            if(empty_is_false) FALSE
+            else get_value
+        }
+        else get_value
+    }
+}
