@@ -1,4 +1,4 @@
-# spsUtil <img src="img/spsutil.png" align="right" height="139" />
+# spsUtil <img src="https://github.com/lz100/spsUtil/blob/master/img/sps_sub_pkgs.png?raw=true" align="right" height="139" />
 
 The {[systemPipeShiny](https://github.com/systemPipeR/systemPipeShiny)} (SPS) framework comes with many useful utility functions. 
 However, installing the whole framework is heavy and takes some time. If you 
