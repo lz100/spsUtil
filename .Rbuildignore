@@ -4,3 +4,4 @@
 ^docs
 .*Rproj$
 .*tar.gz
+^img
