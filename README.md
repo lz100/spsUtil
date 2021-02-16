@@ -6,11 +6,22 @@ like only a few useful utility functions from SPS, install this package is enoug
 
 ## Install
 
+Install release version from CRAN:
+
 ```r
-if (!requireNamespace("spsUti", quietly=TRUE))
-    remotes::install_github("lz100/spsUti")
+install.packages("spsUtil")
+```
+
+Develop version:
+
+```r
+if (!requireNamespace("spsUtil", quietly=TRUE))
+    remotes::install_github("lz100/spsUtil")
 ```
 
 ## User manual 
 
 Read the manual of all utilities on [our website](https://systempipe.org/sps/dev/general/)
+
+## Other packages in systemPipeShiny
+update soon ...
