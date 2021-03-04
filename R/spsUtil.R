@@ -7,19 +7,43 @@
 #' @importFrom magrittr %>%
 NULL
 
-#' Suppress cat print output
-#' @description Useful if you want to suppress cat or print
+#' Suppress cat, print, message and warning
+#' @description Useful if you want to suppress  cat, print, message and warning.
+#' You can choose what to mute. Default all four methods are muted.
+#'
+#' @param print_cat bool, mute `print` and `cat`?
+#' @param message bool, mute `messages`?
+#' @param warning bool, mute `warnings`?
 #' @param x function or expression or value assignment expression
+#'
 #' @export
 #' @return If your original functions has a return, it will return in
 #' `invisible(x)`
 #' @examples
-#' quiet(print(1))
-#' quiet(cat(1))
-quiet <- function(x) {
-    sink(tempfile())
-    on.exit(sink())
-    invisible(force(x))
+#' quiet(warning(123))
+#' quiet(message(123))
+#' quiet(print(123))
+#' quiet(cat(123))
+#' quiet(warning(123), warning = FALSE)
+#' quiet(message(123), message = FALSE)
+#' quiet(print(123), print_cat = FALSE)
+#' quiet(cat(123), print_cat = FALSE)
+quiet <- function (
+    x,
+    print_cat = TRUE,
+    message = TRUE,
+    warning = TRUE
+) {
+    stopifnot(is.logical(print_cat) && length(print_cat) == 1)
+    stopifnot(is.logical(message) && length(message) == 1)
+    stopifnot(is.logical(warning) && length(warning) == 1)
+
+    if (print_cat) sink(tempfile(), type = "out")
+    on.exit(if (print_cat) sink())
+    if (warning && message) invisible(force(suppressMessages(suppressWarnings(x))))
+    else if (warning && !message) invisible(suppressWarnings(force(x)))
+    else if (!warning && message) invisible(suppressMessages(force(x)))
+    else invisible(force(x))
 }
 
 

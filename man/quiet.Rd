@@ -2,21 +2,34 @@
 % Please edit documentation in R/spsUtil.R
 \name{quiet}
 \alias{quiet}
-\title{Suppress cat print output}
+\title{Suppress cat, print, message and warning}
 \usage{
-quiet(x)
+quiet(x, print_cat = TRUE, message = TRUE, warning = TRUE)
 }
 \arguments{
 \item{x}{function or expression or value assignment expression}
+
+\item{print_cat}{bool, mute \code{print} and \code{cat}?}
+
+\item{message}{bool, mute \code{messages}?}
+
+\item{warning}{bool, mute \code{warnings}?}
 }
 \value{
 If your original functions has a return, it will return in
 \code{invisible(x)}
 }
 \description{
-Useful if you want to suppress cat or print
+Useful if you want to suppress  cat, print, message and warning.
+You can choose what to mute. Default all four methods are muted.
 }
 \examples{
-quiet(print(1))
-quiet(cat(1))
+quiet(warning(123))
+quiet(message(123))
+quiet(print(123))
+quiet(cat(123))
+quiet(warning(123), warning = FALSE)
+quiet(message(123), message = FALSE)
+quiet(print(123), print_cat = FALSE)
+quiet(cat(123), print_cat = FALSE)
 }
