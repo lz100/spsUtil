@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Suppress cat print output — quiet • spsUtil</title>
+<title>Suppress cat, print, message and warning — quiet • spsUtil</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Suppress cat print output — quiet" />
-<meta property="og:description" content="Useful if you want to suppress cat or print" />
+<meta property="og:title" content="Suppress cat, print, message and warning — quiet" />
+<meta property="og:description" content="Useful if you want to suppress  cat, print, message and warning.
+You can choose what to mute. Default all four methods are muted." />
 
 
 
@@ -72,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spsUtil</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9</span>
       </span>
     </div>
 
@@ -87,6 +88,9 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -109,16 +113,17 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Suppress cat print output</h1>
+    <h1>Suppress cat, print, message and warning</h1>
     <small class="dont-index">Source: <a href='https://github.com/lz100/spsUtil/blob/master/R/spsUtil.R'><code>R/spsUtil.R</code></a></small>
     <div class="hidden name"><code>quiet.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Useful if you want to suppress cat or print</p>
+    <p>Useful if you want to suppress  cat, print, message and warning.
+You can choose what to mute. Default all four methods are muted.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>quiet</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>quiet</span><span class='op'>(</span><span class='va'>x</span>, print_cat <span class='op'>=</span> <span class='cn'>TRUE</span>, message <span class='op'>=</span> <span class='cn'>TRUE</span>, warning <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -126,6 +131,18 @@
     <tr>
       <th>x</th>
       <td><p>function or expression or value assignment expression</p></td>
+    </tr>
+    <tr>
+      <th>print_cat</th>
+      <td><p>bool, mute <code>print</code> and <code>cat</code>?</p></td>
+    </tr>
+    <tr>
+      <th>message</th>
+      <td><p>bool, mute <code>messages</code>?</p></td>
+    </tr>
+    <tr>
+      <th>warning</th>
+      <td><p>bool, mute <code>warnings</code>?</p></td>
     </tr>
     </table>
 
@@ -135,9 +152,15 @@
 <code><a href='https://rdrr.io/r/base/invisible.html'>invisible(x)</a></code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>quiet</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>quiet</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>quiet</span><span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/warning.html'>warning</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>quiet</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/message.html'>message</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>quiet</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>quiet</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>quiet</span><span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/warning.html'>warning</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>, warning <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: 123</span></div><div class='input'><span class='fu'>quiet</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/message.html'>message</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>, message <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>123</span></div><div class='input'><span class='fu'>quiet</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>, print_cat <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 123</div><div class='input'><span class='fu'>quiet</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>, print_cat <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 123</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
