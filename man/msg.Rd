@@ -10,7 +10,7 @@
 msg(
   msg,
   level = "INFO",
-  .other_color = "white",
+  .other_color = NULL,
   info_text = "INFO",
   warning_text = "WARNING",
   error_text = "ERROR",

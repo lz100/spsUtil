@@ -5,6 +5,7 @@
 #' @importFrom stringr str_remove str_which str_extract str_replace str_sort
 #' @importFrom stringr str_detect str_pad
 #' @importFrom magrittr %>%
+#' @importFrom utils installed.packages
 NULL
 
 #' Suppress cat, print, message and warning
@@ -54,7 +55,7 @@ quiet <- function (
 #' @param quietly bool, give you warning on fail?
 #' @param from  string, where this package is from like, "CRAN", "GitHub", only
 #' for output message display purpose
-#' @return vector strings, of missing package names
+#' @return vector of strings, of missing package names, `character(0)` if no missing
 #' @export
 #' @examples
 #' checkNameSpace("ggplot2")
@@ -62,13 +63,12 @@ quiet <- function (
 #' checkNameSpace("random_pkg", quietly = TRUE)
 checkNameSpace <- function(packages, quietly = FALSE, from = "CRAN") {
     if (!emptyIsFalse(packages)) return(NULL)
-    missing_pkgs <- lapply(packages, function(pkg) {
-        if (!requireNamespace(pkg, quietly = TRUE)) pkg
-    }) %>% unlist()
+    pkg_ls <- installed.packages()[, 1]
+    missing_pkgs <- packages[!packages %in% pkg_ls]
     if (!quietly & assertthat::not_empty(missing_pkgs)) {
         msg(glue("These packages are missing from ",
                  "{from}: {glue_collapse(missing_pkgs, sep = ',')}"), "warning")
-        }
+    }
     return(missing_pkgs)
 }
 
@@ -123,7 +123,7 @@ checkNameSpace <- function(packages, quietly = FALSE, from = "CRAN") {
 #' try(spserror("sps error"))
 msg <- function(msg,
                 level = "INFO",
-                .other_color="white",
+                .other_color=NULL,
                 info_text = "INFO",
                 warning_text = "WARNING",
                 error_text = "ERROR",
@@ -134,7 +134,7 @@ msg <- function(msg,
         info <- crayon::blue$bold
         warn <- crayon::make_style("orange")$bold
         err <- crayon::red$bold
-        other <- crayon::make_style(.other_color)$bold
+        other <- if(is.null(.other_color)) crayon::chr else crayon::make_style(.other_color)$bold
     }
     level_text <- switch(toupper(level),
         "WARNING" = warning_text,
@@ -231,16 +231,18 @@ checkUrl <- function(url, timeout = 5){
 
 #' Remove ANSI color code
 #' @description Remove ANSI pre-/suffix-fix in a character string.
-#' @param string string, length 1
+#' @param strings strings, a character vector
 #' @export
-#' @return string with out ANSI characters
+#' @return strings with out ANSI characters
 #' @examples
 #' remove_ANSI("\033[34m\033[1ma\033[22m\033[39m")
-remove_ANSI <- function(string) {
-    assertthat::assert_that(is.character(string) && length(string) == 1)
+#' remove_ANSI(c("\033[34m\033[1ma\033[22m\033[39m",
+#'               "\033[34m\033[1mb\033[22m\033[39m"))
+remove_ANSI <- function(strings) {
+    assertthat::assert_that(is.character(strings))
     ANSI <- paste0("(?:(?:\\x{001b}\\[)|\\x{009b})(?:(?:[0-9]{1,3})?(?:",
                    "(?:;[0-9]{0,3})*)?[A-M|f-m])|\\x{001b}[A-M]")
-    gsub(ANSI, "", string, perl = TRUE)
+    gsub(ANSI, "", strings, perl = TRUE)
 }
 
 

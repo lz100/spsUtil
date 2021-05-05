@@ -4,17 +4,19 @@
 \alias{remove_ANSI}
 \title{Remove ANSI color code}
 \usage{
-remove_ANSI(string)
+remove_ANSI(strings)
 }
 \arguments{
-\item{string}{string, length 1}
+\item{strings}{strings, a character vector}
 }
 \value{
-string with out ANSI characters
+strings with out ANSI characters
 }
 \description{
 Remove ANSI pre-/suffix-fix in a character string.
 }
 \examples{
 remove_ANSI("\033[34m\033[1ma\033[22m\033[39m")
+remove_ANSI(c("\033[34m\033[1ma\033[22m\033[39m",
+              "\033[34m\033[1mb\033[22m\033[39m"))
 }

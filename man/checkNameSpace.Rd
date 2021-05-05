@@ -15,7 +15,7 @@ checkNameSpace(packages, quietly = FALSE, from = "CRAN")
 for output message display purpose}
 }
 \value{
-vector strings, of missing package names
+vector of strings, of missing package names, \code{character(0)} if no missing
 }
 \description{
 Help you to check if you have certain packages and

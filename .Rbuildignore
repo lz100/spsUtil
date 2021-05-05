@@ -5,3 +5,5 @@
 .*Rproj$
 .*tar.gz
 ^img
+_pkgdown.yml
+index.md
