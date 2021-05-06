@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spsUtil</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -115,9 +115,9 @@
       <small>Source: <a href='https://github.com/lz100/spsUtil/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="spsutil-0109" class="section level1">
-<h1 class="page-header" data-toc-text="0.1.0.9">
-<a href="#spsutil-0109" class="anchor"></a>spsUtil 0.1.0.9<small> Unreleased </small>
+    <div id="spsutil-012" class="section level1">
+<h1 class="page-header" data-toc-text="0.1.2">
+<a href="#spsutil-012" class="anchor"></a>spsUtil 0.1.2<small> 2021-05-05 </small>
 </h1>
 <div id="major-change" class="section level2">
 <h2 class="hasAnchor">
@@ -125,6 +125,15 @@
 <ul>
 <li>
 <code>quiet</code> now can mute <code>message</code> and <code>warning</code> in addition to <code>print</code>, <code>cat</code>.</li>
+<li>Rewrite <code>checkNameSpace</code> so it does not actually load the package namespace files. This has reduced RAM usage a lot.</li>
+</ul>
+</div>
+<div id="minor-change" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-change" class="anchor"></a>Minor change</h2>
+<ul>
+<li><p><code>msg</code>’s <code>.other_color</code> argument default has changed to <code>NULL</code>. When it is <code>NULL</code>, use no color decoration.</p></li>
+<li><p><code>remove_ANSI</code> now works on a vector of characters.</p></li>
 </ul>
 </div>
 </div>
