@@ -1,3 +1,9 @@
+# spsUtil 0.2.0 Dev
+
+## New feature
+
+-   `spsOption` has a new argument `.list`: set more than one options a time by passing a list of options and their values to it.
+
 # spsUtil 0.1.2
 
 ## Major change
