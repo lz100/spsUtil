@@ -189,15 +189,18 @@ spserror <- function(msg) msg(msg, "error", error_text = "SPS-ERROR", use_color 
 #' try(`if(NULL) "not empty" else "empty"`) # will generate error
 #' if(emptyIsFalse(NULL)) "not empty" else "empty" # this will work
 #' # similar for `NA`, `""`, `character(0)` and more
-emptyIsFalse <- function(x){
-    if(is.function(x)) return(TRUE)
-    if(length(x) > 1)  return(TRUE)
-    if(length(x) == 0) return(FALSE)
-    if(is.na(x)) return(FALSE)
-    if(nchar(x) == 0) return(FALSE)
-    if(isFALSE(x)) return(FALSE)
+emptyIsFalse <- function (x) {
+    if (is.function(x)) 
+        return(TRUE)
+    if (length(x) < 1 || is.na(x) || is.null(x)) 
+        return(FALSE)
+    if (nchar(x) == 0) 
+        return(FALSE)
+    if (isFALSE(x)) 
+        return(FALSE)
     else TRUE
 }
+
 
 
 #' check if an URL can be reached
