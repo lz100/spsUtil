@@ -5,8 +5,8 @@
 #' @param e2 the operation value, the value to add, subtract, multiply, divide of.
 #'
 #' @return No return, directly assign the value back to `e1`
-#' @seealso If you want reactiveVal or reactiveValues version of these operators,
-#' check [spsComps]
+#' @seealso If you want [shiny::reactiveVal] or [shiny::reactiveValues] version of these operators,
+#' check [spsComps](https://systempipe.org/sps/funcs/spscomps/reference/)
 #' @export
 #' @details
 #' `inc(i)` is the same as `i <- i + 1`.
@@ -35,7 +35,9 @@
 inc <- function(e1,e2 = 1){eval.parent(substitute(e1 <- e1 + e2))}
 
 #' @rdname inc
+#' @export
 mult <- function(e1,e2 = 2){eval.parent(substitute(e1 <- e1 * e2))}
 
 #' @rdname inc
+#' @export
 dev <- function(e1,e2 = 2){eval.parent(substitute(e1 <- e1 / e2))}

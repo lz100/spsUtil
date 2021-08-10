@@ -21,7 +21,7 @@ option is \code{NULL}, \code{NA}, \code{""} or length is 0, return \code{FALSE}?
 \value{
 return the option value if value exists; return \code{FALSE} if the value
 is empty, like \code{NULL}, \code{NA}, \code{""}; return \code{NULL} if \code{empty_is_false = FALSE};
-see \link{emptyIsFalse}
+see \link{notFalsy}
 
 If \code{value != NULL} will set the option to this new value, no returns.
 }

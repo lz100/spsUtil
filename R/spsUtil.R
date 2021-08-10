@@ -172,9 +172,18 @@ spswarn <- function(msg) msg(msg, "warning", warning_text = "SPS-WARNING", use_c
 spserror <- function(msg) msg(msg, "error", error_text = "SPS-ERROR", use_color = FALSE)
 
 
-#' Empty objects and FALSE will return FALSE
-#' @description judge if an object is empty or FALSE, and return FALSE if it is
-#' @details  not working on S4 class objects.
+#' Judgement of falsy value
+#' @description judge if an object is or not a falsy value. This includes:
+#' empty value, empty string `""`, `NULL`, `NA`, length of 0 and `FALSE` itself
+#' @details
+#' R does not have good built-in methods to judge falsy values and these kind
+#' of values often cause errors in `if` conditions, for example
+#' `if(NULL) 1 else 2` will cause error. So this function will be useful to
+#' handle this kind of situations: `if(notFalsy(NULL)) 1 else 2`.
+#'
+#' 1. not working on S4 class objects.
+#' 2. `isFalsy` is the reverse of `notFalsy`: `isFalsy(x)` = !`notFalsy(x)`
+#' 3. `emptyIsFalse` is the old name for `notFalsy`
 #'
 #' Useful for if statement. Normal empty object in if will spawn error. Wrap the
 #' expression with `emptyIsFalse` can avoid this. See examples
@@ -182,25 +191,35 @@ spserror <- function(msg) msg(msg, "error", error_text = "SPS-ERROR", use_color 
 #'
 #' @export
 #' @return `NA`, `""`, `NULL`, `length(0)`, `nchar == 0` and `FALSE` will return
-#' `FALSE`, otherwise `TRUE`.
+#' `FALSE`, otherwise `TRUE` in `notFalsy` and the opposite in `isFalsy`
 #' @examples
-#' emptyIsFalse(NULL)
-#' emptyIsFalse(NA)
-#' emptyIsFalse("")
-#' try(`if(NULL) "not empty" else "empty"`) # will generate error
-#' if(emptyIsFalse(NULL)) "not empty" else "empty" # this will work
-#' # similar for `NA`, `""`, `character(0)` and more
-emptyIsFalse <- function (x) {
-    if (is.function(x)) 
-        return(TRUE)
-    if (length(x) < 1 || is.na(x) || is.null(x)) 
-        return(FALSE)
-    if (nchar(x) == 0) 
-        return(FALSE)
-    if (isFALSE(x)) 
-        return(FALSE)
+#' notFalsy(NULL)
+#' notFalsy(NA)
+#' notFalsy("")
+#' try(`if(NULL) "not empty" else "empty"`) # this will generate error
+#' if(notFalsy(NULL)) "not falsy" else "falsy" # but this will work
+#' # Similar for `NA`, `""`, `character(0)` and more
+#' isFalsy(NULL)
+#' isFalsy(NA)
+#' isFalsy("")
+notFalsy <- function (x) {
+    if (is.function(x)) return(TRUE)
+    if (is.environment(x)) return(TRUE)
+    if (length(x) < 1 || all(is.na(x)) || is.null(x)) return(FALSE)
+    if (nchar(x[1]) == 0) return(FALSE)
+    if (isFALSE(x)) return(FALSE)
     else TRUE
 }
+
+#' @rdname notFalsy
+#' @export
+isFalsy <- function(x) {
+    !notFalsy(x)
+}
+
+#' @rdname notFalsy
+#' @export
+emptyIsFalse <- notFalsy
 
 
 
@@ -264,7 +283,7 @@ remove_ANSI <- function(strings) {
 #' list to this function.
 #' @return return the option value if value exists; return `FALSE` if the value
 #' is empty, like `NULL`, `NA`, `""`; return `NULL` if `empty_is_false = FALSE`;
-#'  see [emptyIsFalse]
+#'  see [notFalsy]
 #'
 #'  If `value != NULL` will set the option to this new value, no returns.
 #' @export

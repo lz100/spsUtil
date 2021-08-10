@@ -100,9 +100,48 @@ simepleStack <- R6::R6Class(
 #' of certain repeating actions. For example, building the back-end of a file/image
 #' editor, allow undo/redo actions.
 #' @details
+#' 1. If the stack reaches the limit and you are trying to add more history, the
+#'    first history step will be removed , all history will be shift to the left
+#'    by one step and finally add the new step to the end.
+#' 2. When history returning methods are called, like the `get()`, `forward()`, `backward()`
+#'    methods, it will not directly return the item saved, but a list, contains 4
+#'    components: 1. item, the actual item stored; 2. pos, current posistion value;
+#'    3. first, boolean value, if this history is stored on the first position of stack;
+#'    4. last, boolean value, if this history is stored on the last position of stack;
+#' 3. If you `forward` beyond last step, or `backward` to prior the first
+#'    step, it will be stopped with errors.
+#' 4. Starting  history stack with no initial history will return a special
+#'    stack, where the `pos = 0`, `len = 0`, `first = TRUE`, and `last = TRUE`.
+#'    This means you cannot move forward or backward. When you `get()`, it will be
+#'    an empty list `list()`. After adding any new history, `pos` will never be
+#'    0 again, it will always be a larger than 0 value.
 #' @return an R6 class object
 #' @export
 #' @examples
+#' his <- historyStack$new()
+#' # add some history
+#' his$add(1)
+#' his$add(2)
+#' his$add(3)
+#' his$add(4)
+#' his$add(5)
+#' # check status
+#' his$status()
+#' # get item at current history position
+#' his$get()
+#' # go back to previous step
+#' his$backward()
+#' # going back to step 2
+#' his$backward()
+#' his$backward()
+#' # going forward 1 step tp step 3
+#' his$forward()
+#' # check current status
+#' his$status()
+#' # adding a new step at position 3 will remove the old step 4,5 before adding
+#' his$add("new 4")
+#' # only 3 steps + 1 new step = 4 steps left
+#' his$status()
 historyStack <- R6::R6Class(
     classname = "historyStack",
     public = list(

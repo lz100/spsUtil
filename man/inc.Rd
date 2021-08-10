@@ -51,6 +51,6 @@ dev(x) # divide 2
 x
 }
 \seealso{
-If you want reactiveVal or reactiveValues version of these operators,
-check \link{spsComps}
+If you want \link[shiny:reactiveVal]{shiny::reactiveVal} or \link[shiny:reactiveValues]{shiny::reactiveValues} version of these operators,
+check \href{https://systempipe.org/sps/funcs/spscomps/reference/}{spsComps}
 }

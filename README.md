@@ -21,7 +21,9 @@ if (!requireNamespace("spsUtil", quietly=TRUE))
 
 ## User manual 
 
-Read the manual of all utilities on [our website](https://systempipe.org/sps/dev/spsutil/)
+Read the manual of all utilities on [our website](https://systempipe.org/sps/dev/spsutil/).
+
+Read the function reference [here](https://systempipe.org/sps/sps_funcs/).
 
 ## Other packages in systemPipeShiny
 
