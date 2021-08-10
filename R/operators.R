@@ -5,8 +5,9 @@
 #' @param e2 the operation value, the value to add, subtract, multiply, divide of.
 #'
 #' @return No return, directly assign the value back to `e1`
-#' @seealso If you want [shiny::reactiveVal] or [shiny::reactiveValues] version of these operators,
-#' check [spsComps](https://systempipe.org/sps/funcs/spscomps/reference/)
+#' @seealso If you want [shiny::reactiveVal]  version of these operators,
+#' check [spsComps](https://systempipe.org/sps/funcs/spscomps/reference/). [shiny::reactiveValues]
+#' operation will be the same as normal values.
 #' @export
 #' @details
 #' `inc(i)` is the same as `i <- i + 1`.
