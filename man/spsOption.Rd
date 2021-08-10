@@ -4,13 +4,16 @@
 \alias{spsOption}
 \title{Get or set SPS options}
 \usage{
-spsOption(opt, value = NULL, empty_is_false = TRUE)
+spsOption(opt, value = NULL, .list = NULL, empty_is_false = TRUE)
 }
 \arguments{
 \item{opt}{string, length 1, what option you want to get or set}
 
 \item{value}{if this is not \code{NULL}, this function will set the
 option you choose to this value}
+
+\item{.list}{list, set many SPS options together at once by passing a
+list to this function.}
 
 \item{empty_is_false}{bool, when trying to get an option value, if the
 option is \code{NULL}, \code{NA}, \code{""} or length is 0, return \code{FALSE}?}
@@ -23,7 +26,10 @@ see \link{emptyIsFalse}
 If \code{value != NULL} will set the option to this new value, no returns.
 }
 \description{
-Get or set SPS options
+Some functions in {spsUtil}, {spsComps} and {systempPipeShiny} will behave
+differently if some SPS options are changed, but it is optional. All functions
+have a default value. If SPS options are not changed, they will just use the
+default setting. Read help files of individual functions for detail.
 }
 \examples{
 spsOption("test1") # get a not existing option
@@ -31,4 +37,10 @@ spsOption("test1", 1) # set the value
 spsOption("test1") # get the value again
 spsOption("test2")
 spsOption("test2", empty_is_false = FALSE)
+spsOption(.list = list(
+    test1 = 123,
+    test2 = 456
+))
+spsOption("test1")
+spsOption("test2")
 }

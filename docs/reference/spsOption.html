@@ -40,7 +40,10 @@
 
 
 <meta property="og:title" content="Get or set SPS options — spsOption" />
-<meta property="og:description" content="Get or set SPS options" />
+<meta property="og:description" content="Some functions in spsUtil, spsComps and systempPipeShiny will behave
+differently if some SPS options are changed, but it is optional. All functions
+have a default value. If SPS options are not changed, they will just use the
+default setting. Read help files of individual functions for detail." />
 
 
 
@@ -72,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spsUtil</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.99</span>
       </span>
     </div>
 
@@ -80,7 +83,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="https://systempipe.org/sps/">
-    <span class="fa fa fa fa-home"></span>
+    <span class="fa fa-home"></span>
      
     SPS Home
   </a>
@@ -118,10 +121,13 @@
     </div>
 
     <div class="ref-description">
-    <p>Get or set SPS options</p>
+    <p>Some functions in spsUtil, spsComps and systempPipeShiny will behave
+differently if some SPS options are changed, but it is optional. All functions
+have a default value. If SPS options are not changed, they will just use the
+default setting. Read help files of individual functions for detail.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>spsOption</span><span class='op'>(</span><span class='va'>opt</span>, value <span class='op'>=</span> <span class='cn'>NULL</span>, empty_is_false <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>spsOption</span><span class='op'>(</span><span class='va'>opt</span>, value <span class='op'>=</span> <span class='cn'>NULL</span>, .list <span class='op'>=</span> <span class='cn'>NULL</span>, empty_is_false <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -134,6 +140,11 @@
       <th>value</th>
       <td><p>if this is not <code>NULL</code>, this function will set the
 option you choose to this value</p></td>
+    </tr>
+    <tr>
+      <th>.list</th>
+      <td><p>list, set many SPS options together at once by passing a
+list to this function.</p></td>
     </tr>
     <tr>
       <th>empty_is_false</th>
@@ -155,7 +166,13 @@ see <a href='emptyIsFalse.html'>emptyIsFalse</a></p>
 <span class='fu'>spsOption</span><span class='op'>(</span><span class='st'>"test1"</span><span class='op'>)</span> <span class='co'># get the value again</span>
 </div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'>spsOption</span><span class='op'>(</span><span class='st'>"test2"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>spsOption</span><span class='op'>(</span><span class='st'>"test2"</span>, empty_is_false <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; NULL</div></pre>
+</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='fu'>spsOption</span><span class='op'>(</span>.list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+    test1 <span class='op'>=</span> <span class='fl'>123</span>,
+    test2 <span class='op'>=</span> <span class='fl'>456</span>
+<span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>spsOption</span><span class='op'>(</span><span class='st'>"test1"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 123</div><div class='input'><span class='fu'>spsOption</span><span class='op'>(</span><span class='st'>"test2"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 456</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

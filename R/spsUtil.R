@@ -190,15 +190,18 @@ spserror <- function(msg) msg(msg, "error", error_text = "SPS-ERROR", use_color 
 #' try(`if(NULL) "not empty" else "empty"`) # will generate error
 #' if(emptyIsFalse(NULL)) "not empty" else "empty" # this will work
 #' # similar for `NA`, `""`, `character(0)` and more
-emptyIsFalse <- function(x){
-    if(is.function(x)) return(TRUE)
-    if(length(x) > 1)  return(TRUE)
-    if(length(x) == 0) return(FALSE)
-    if(is.na(x)) return(FALSE)
-    if(nchar(x) == 0) return(FALSE)
-    if(isFALSE(x)) return(FALSE)
+emptyIsFalse <- function (x) {
+    if (is.function(x)) 
+        return(TRUE)
+    if (length(x) < 1 || is.na(x) || is.null(x)) 
+        return(FALSE)
+    if (nchar(x) == 0) 
+        return(FALSE)
+    if (isFALSE(x)) 
+        return(FALSE)
     else TRUE
 }
+
 
 
 #' check if an URL can be reached
@@ -248,12 +251,17 @@ remove_ANSI <- function(strings) {
 
 
 #' Get or set SPS options
-#'
+#' @description  Some functions in {spsUtil}, {spsComps} and {systempPipeShiny} will behave
+#' differently if some SPS options are changed, but it is optional. All functions
+#' have a default value. If SPS options are not changed, they will just use the
+#' default setting. Read help files of individual functions for detail.
 #' @param opt string, length 1, what option you want to get or set
 #' @param value if this is not `NULL`, this function will set the
 #' option you choose to this value
 #' @param empty_is_false bool, when trying to get an option value, if the
 #' option is `NULL`, `NA`, `""` or length is 0, return `FALSE`?
+#' @param .list list, set many SPS options together at once by passing a
+#' list to this function.
 #' @return return the option value if value exists; return `FALSE` if the value
 #' is empty, like `NULL`, `NA`, `""`; return `NULL` if `empty_is_false = FALSE`;
 #'  see [emptyIsFalse]
@@ -266,7 +274,21 @@ remove_ANSI <- function(strings) {
 #' spsOption("test1") # get the value again
 #' spsOption("test2")
 #' spsOption("test2", empty_is_false = FALSE)
-spsOption <- function(opt, value = NULL, empty_is_false = TRUE){
+#' spsOption(.list = list(
+#'     test1 = 123,
+#'     test2 = 456
+#' ))
+#' spsOption("test1")
+#' spsOption("test2")
+spsOption <- function(opt, value = NULL, .list = NULL, empty_is_false = TRUE){
+    if (!is.null(.list)) {
+        lapply(seq_along(.list), function(x) {
+            if(is.null(.list[[x]])) spserror(c("In `spsOption`: option ", names(.list)[x], " is NULL, not allowed"))
+        })
+        old_opts <- getOption('sps')
+        old_opts[names(.list)] <- .list
+        return(options(sps = old_opts))
+    }
     assertthat::assert_that(is.character(opt) && length(opt) == 1)
     if(assertthat::not_empty(value))
         options(sps = getOption('sps') %>% {.[[opt]] <- value; .})
