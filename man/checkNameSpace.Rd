@@ -4,7 +4,13 @@
 \alias{checkNameSpace}
 \title{check namespace}
 \usage{
-checkNameSpace(packages, quietly = FALSE, from = "CRAN")
+checkNameSpace(
+  packages,
+  quietly = FALSE,
+  from = "CRAN",
+  time_out = 1,
+  on_timeout = {     "" }
+)
 }
 \arguments{
 \item{packages}{vector of strings}
@@ -13,6 +19,13 @@ checkNameSpace(packages, quietly = FALSE, from = "CRAN")
 
 \item{from}{string, where this package is from like, "CRAN", "GitHub", only
 for output message display purpose}
+
+\item{time_out}{numeric, how long to wait before reaching the time limit. Sometimes
+there are too many pkgs installed and takes too long to scan the whole list.
+Set this timeout in seconds to prevent the long waiting.}
+
+\item{on_timeout}{expressions, expressions to run when reaches timeout time.
+Default is to return all packages as missing}
 }
 \value{
 vector of strings, of missing package names, \code{character(0)} if no missing

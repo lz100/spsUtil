@@ -52,19 +52,32 @@ quiet <- function (
 #' check namespace
 #' @description  Help you to check if you have certain packages and
 #' return missing package names
+#'
 #' @param packages vector of strings
 #' @param quietly bool, give you warning on fail?
 #' @param from  string, where this package is from like, "CRAN", "GitHub", only
 #' for output message display purpose
+#' @param time_out numeric, how long to wait before reaching the time limit. Sometimes
+#' there are too many pkgs installed and takes too long to scan the whole list.
+#' Set this timeout in seconds to prevent the long waiting.
+#' @param on_timeout expressions, expressions to run when reaches timeout time.
+#' Default is to return all packages as missing
 #' @return vector of strings, of missing package names, `character(0)` if no missing
 #' @export
 #' @examples
 #' checkNameSpace("ggplot2")
 #' checkNameSpace("random_pkg")
 #' checkNameSpace("random_pkg", quietly = TRUE)
-checkNameSpace <- function(packages, quietly = FALSE, from = "CRAN") {
+checkNameSpace <- function(
+    packages,
+    quietly = FALSE,
+    from = "CRAN",
+    time_out = 1,
+    on_timeout = {""}
+    ){
+    stopifnot(is.numeric(time_out) && length(time_out) == 1)
     if (!emptyIsFalse(packages)) return(NULL)
-    pkg_ls <- installed.packages()[, 1]
+    pkg_ls <- timeout(installed.packages()[, 1], on_timeout = on_timeout, time_out = time_out)
     missing_pkgs <- packages[!packages %in% pkg_ls]
     if (!quietly & assertthat::not_empty(missing_pkgs)) {
         msg(glue("These packages are missing from ",
@@ -224,7 +237,7 @@ emptyIsFalse <- notFalsy
 
 
 #' check if an URL can be reached
-#' @importFrom httr GET timeout stop_for_status
+#' @importFrom httr GET stop_for_status
 #' @param url string, the URL to request
 #' @param timeout seconds to wait before return FALSE
 #' @description check if a URL can be reached, return TRUE if yes and FALSE if
@@ -320,3 +333,86 @@ spsOption <- function(opt, value = NULL, .list = NULL, empty_is_false = TRUE){
         else get_value
     }
 }
+
+
+
+#' Run expressions with a timeout limit
+#' @description Add a time limit for R expressions
+#' @param expr expressions, wrap them inside `{}`
+#' @param time_out numeric, timeout time, in seconds
+#' @param on_timeout expressions, callback expressions to run it the time out limit
+#' is reached but expression is still running. Default is to return an error.
+#' @param on_final expressions, callback expressions to run in the end regardless
+#' the state and results
+#' @param env environment, which environment to evaluate the expressions. Default is
+#' the same environment as where the `timeout` function is called.
+#'
+#' @return default return, all depends on what return the `expr` will have
+#' @export
+#' @details
+#' Expressions will be evaluated in the parent environment by default, for example
+#' if this function is called at global level, all returns, assignments inside
+#' `expr` will directly go to global environment as well.
+#' @examples
+#' # The `try` command in following examples are here to make sure the
+#' # R CMD check will pass on package check. In a real case, you do not
+#' # need it.
+#'
+#' # default
+#' try(timeout({Sys.sleep(2)}))
+#' # timeout is evaluating expressions the same level as you call it
+#' timeout({abc <- 123})
+#' # so you should get `abc` even outside the function call
+#' abc
+#' # custom timeout callback
+#' timeout({Sys.sleep(2)}, on_timeout = {print("It takes too long")})
+#' # final call back
+#' try(timeout({Sys.sleep(2)}, on_final = {print("some final words")})) # on error
+#' timeout({123}, on_final = {print("runs even success")})  # on success
+#' # assign to value
+#' my_val <- timeout({10 + 1})
+#' my_val
+timeout <- function(
+    expr,
+    time_out = 1,
+    on_timeout = {stop("Timout reached", call. = FALSE)},
+    on_final = {},
+    env = parent.frame()
+    ){
+    stopifnot(is.numeric(time_out) && length(time_out) == 1)
+    expr <- substitute(expr)
+    on_timeout <- substitute(on_timeout)
+    on_final <- substitute(on_final)
+    on.exit(setTimeLimit(), TRUE)
+    setTimeLimit(elapsed = time_out, transient = TRUE)
+    tryCatch({
+        eval(expr, envir=env)
+        },
+        message = function(e) {
+            message(e$message)
+        },
+        warning = function(e) {
+            warning(e$message, call. = FALSE, immediate. = TRUE)
+        },
+        error = function(e) {
+            if(grep("reached elapsed time limit", e$message)) {
+                return(eval(on_timeout, envir=env))
+            }
+            stop(e$message, call. = FALSE)
+        },
+        finally = eval(on_final, envir=env)
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
