@@ -2,7 +2,7 @@
 
 export(checkNameSpace)
 export(checkUrl)
-export(dev)
+export(divi)
 export(emptyIsFalse)
 export(historyStack)
 export(inc)

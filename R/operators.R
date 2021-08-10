@@ -13,7 +13,7 @@
 #' `inc(i)` is the same as `i <- i + 1`.
 #' `inc(i, -1)` is the same as `i <- i - 1`.
 #' `mult(i)` is the same as `i <- i * 2`.
-#' `dev(i)` is the same as `i <- i / 2`.
+#' `divi(i)` is the same as `i <- i / 2`.
 #' @examples
 #' i <- 0
 #' inc(i) # add 1
@@ -29,9 +29,9 @@
 #' x
 #' mult(x) # times 2
 #' x
-#' dev(x) # divide 2
+#' divi(x) # divide 2
 #' x
-#' dev(x) # divide 2
+#' divi(x) # divide 2
 #' x
 inc <- function(e1,e2 = 1){eval.parent(substitute(e1 <- e1 + e2))}
 
@@ -41,4 +41,4 @@ mult <- function(e1,e2 = 2){eval.parent(substitute(e1 <- e1 * e2))}
 
 #' @rdname inc
 #' @export
-dev <- function(e1,e2 = 2){eval.parent(substitute(e1 <- e1 / e2))}
+divi <- function(e1,e2 = 2){eval.parent(substitute(e1 <- e1 / e2))}

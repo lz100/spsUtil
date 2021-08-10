@@ -3,14 +3,14 @@
 \name{inc}
 \alias{inc}
 \alias{mult}
-\alias{dev}
+\alias{divi}
 \title{In-place operations}
 \usage{
 inc(e1, e2 = 1)
 
 mult(e1, e2 = 2)
 
-dev(e1, e2 = 2)
+divi(e1, e2 = 2)
 }
 \arguments{
 \item{e1}{object, most likely a numeric object}
@@ -28,7 +28,7 @@ R. These functions implement these operations in R.
 \code{inc(i)} is the same as \code{i <- i + 1}.
 \code{inc(i, -1)} is the same as \code{i <- i - 1}.
 \code{mult(i)} is the same as \code{i <- i * 2}.
-\code{dev(i)} is the same as \code{i <- i / 2}.
+\code{divi(i)} is the same as \code{i <- i / 2}.
 }
 \examples{
 i <- 0
@@ -45,9 +45,9 @@ mult(x) # times 2
 x
 mult(x) # times 2
 x
-dev(x) # divide 2
+divi(x) # divide 2
 x
-dev(x) # divide 2
+divi(x) # divide 2
 x
 }
 \seealso{
