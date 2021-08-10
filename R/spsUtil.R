@@ -6,6 +6,7 @@
 #' @importFrom stringr str_detect str_pad
 #' @importFrom magrittr %>%
 #' @importFrom utils installed.packages
+#' @importFrom R6 R6Class
 NULL
 
 #' Suppress cat, print, message and warning

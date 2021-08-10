@@ -1,0 +1,41 @@
+#' In-place operations
+#' @description In-place operations like `i += 1`, `i -= 1` is not support in
+#' R. These functions implement these operations in R.
+#' @param e1 object, most likely a numeric object
+#' @param e2 the operation value, the value to add, subtract, multiply, divide of.
+#'
+#' @return No return, directly assign the value back to `e1`
+#' @seealso If you want reactiveVal or reactiveValues version of these operators,
+#' check [spsComps]
+#' @export
+#' @details
+#' `inc(i)` is the same as `i <- i + 1`.
+#' `inc(i, -1)` is the same as `i <- i - 1`.
+#' `mult(i)` is the same as `i <- i * 2`.
+#' `dev(i)` is the same as `i <- i / 2`.
+#' @examples
+#' i <- 0
+#' inc(i) # add 1
+#' i
+#' inc(i) # add 1
+#' i
+#' inc(i, -1) # minus 1
+#' i
+#' inc(i, -1) # minus 1
+#' i
+#' x <- 1
+#' mult(x) # times 2
+#' x
+#' mult(x) # times 2
+#' x
+#' dev(x) # divide 2
+#' x
+#' dev(x) # divide 2
+#' x
+inc <- function(e1,e2 = 1){eval.parent(substitute(e1 <- e1 + e2))}
+
+#' @rdname inc
+mult <- function(e1,e2 = 2){eval.parent(substitute(e1 <- e1 * e2))}
+
+#' @rdname inc
+dev <- function(e1,e2 = 2){eval.parent(substitute(e1 <- e1 / e2))}
