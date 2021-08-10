@@ -65,9 +65,11 @@ quiet <- function (
 #' @return vector of strings, of missing package names, `character(0)` if no missing
 #' @export
 #' @examples
-#' checkNameSpace("ggplot2")
-#' checkNameSpace("random_pkg")
-#' checkNameSpace("random_pkg", quietly = TRUE)
+#' if(!identical(Sys.getenv("NOT_CRAN"), "false")){
+#'     checkNameSpace("ggplot2")
+#'     checkNameSpace("random_pkg")
+#'     checkNameSpace("random_pkg", quietly = TRUE)
+#' }
 checkNameSpace <- function(
     packages,
     quietly = FALSE,
@@ -89,10 +91,12 @@ checkNameSpace <- function(
 
 #' @title pretty logging message
 #' @description If
+#'
 #'   1. `use_color = TRUE` or
 #'   2. under SPS main package `use_crayon`option is `TRUE`
 #'   3. In a console that supports colors
-#'   Then the message will be colorful, other wise no color
+#'
+#' Then the message will be colorful, other wise no color.
 #'
 #' "INFO" level spawns `message`, "WARNING" is `warning`, "ERROR" spawns `stop`,
 #' other levels use `cat`.
@@ -359,15 +363,15 @@ spsOption <- function(opt, value = NULL, .list = NULL, empty_is_false = TRUE){
 #' # need it.
 #'
 #' # default
-#' try(timeout({Sys.sleep(2)}))
+#' try(timeout({Sys.sleep(0.1)}, time_out = 0.01))
 #' # timeout is evaluating expressions the same level as you call it
 #' timeout({abc <- 123})
 #' # so you should get `abc` even outside the function call
 #' abc
 #' # custom timeout callback
-#' timeout({Sys.sleep(2)}, on_timeout = {print("It takes too long")})
+#' timeout({Sys.sleep(0.1)}, time_out = 0.01, on_timeout = {print("It takes too long")})
 #' # final call back
-#' try(timeout({Sys.sleep(2)}, on_final = {print("some final words")})) # on error
+#' try(timeout({Sys.sleep(0.1)}, time_out = 0.01, on_final = {print("some final words")})) # on error
 #' timeout({123}, on_final = {print("runs even success")})  # on success
 #' # assign to value
 #' my_val <- timeout({10 + 1})

@@ -52,8 +52,9 @@ If
 \item \code{use_color = TRUE} or
 \item under SPS main package \code{use_crayon}option is \code{TRUE}
 \item In a console that supports colors
-Then the message will be colorful, other wise no color
 }
+
+Then the message will be colorful, other wise no color.
 
 "INFO" level spawns \code{message}, "WARNING" is \code{warning}, "ERROR" spawns \code{stop},
 other levels use \code{cat}.

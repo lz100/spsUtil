@@ -43,15 +43,15 @@ if this function is called at global level, all returns, assignments inside
 # need it.
 
 # default
-try(timeout({Sys.sleep(2)}))
+try(timeout({Sys.sleep(0.1)}, time_out = 0.01))
 # timeout is evaluating expressions the same level as you call it
 timeout({abc <- 123})
 # so you should get `abc` even outside the function call
 abc
 # custom timeout callback
-timeout({Sys.sleep(2)}, on_timeout = {print("It takes too long")})
+timeout({Sys.sleep(0.1)}, time_out = 0.01, on_timeout = {print("It takes too long")})
 # final call back
-try(timeout({Sys.sleep(2)}, on_final = {print("some final words")})) # on error
+try(timeout({Sys.sleep(0.1)}, time_out = 0.01, on_final = {print("some final words")})) # on error
 timeout({123}, on_final = {print("runs even success")})  # on success
 # assign to value
 my_val <- timeout({10 + 1})

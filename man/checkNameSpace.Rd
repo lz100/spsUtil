@@ -35,7 +35,9 @@ Help you to check if you have certain packages and
 return missing package names
 }
 \examples{
-checkNameSpace("ggplot2")
-checkNameSpace("random_pkg")
-checkNameSpace("random_pkg", quietly = TRUE)
+if(!identical(Sys.getenv("NOT_CRAN"), "false")){
+    checkNameSpace("ggplot2")
+    checkNameSpace("random_pkg")
+    checkNameSpace("random_pkg", quietly = TRUE)
+}
 }
