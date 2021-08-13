@@ -1,3 +1,10 @@
+# spsUtil 0.2.99 dev
+
+## Minor Change
+
+-   Use fater `.packages(TRUE)` method in `checkNamespace` to find installed packages.
+
+
 # spsUtil 0.2.0
 
 ## New feature
