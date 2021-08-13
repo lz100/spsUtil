@@ -79,7 +79,7 @@ checkNameSpace <- function(
     ){
     stopifnot(is.numeric(time_out) && length(time_out) == 1)
     if (!emptyIsFalse(packages)) return(NULL)
-    pkg_ls <- timeout(installed.packages()[, 1], on_timeout = on_timeout, time_out = time_out)
+    pkg_ls <- timeout(.packages(TRUE), on_timeout = on_timeout, time_out = time_out)
     missing_pkgs <- packages[!packages %in% pkg_ls]
     if (!quietly & assertthat::not_empty(missing_pkgs)) {
         msg(glue("These packages are missing from ",
