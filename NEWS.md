@@ -1,3 +1,9 @@
+# spsUtil 0.2.99 Dev
+
+## New feature
+
+-   New function `strUniquefy`: takes a string or numeric vector and found all duplicated elements and add an index to the end to make sure all elements are unique.
+
 # spsUtil 0.2.0
 
 ## New feature

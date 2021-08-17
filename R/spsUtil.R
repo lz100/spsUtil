@@ -7,6 +7,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom utils installed.packages
 #' @importFrom R6 R6Class
+#' @importFrom stats ave
 NULL
 
 #' Suppress cat, print, message and warning
