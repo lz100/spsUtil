@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spsUtil</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.99</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -115,9 +115,9 @@
       <small>Source: <a href='https://github.com/lz100/spsUtil/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="spsutil-020-dev" class="section level1">
+    <div id="spsutil-020" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.0">
-<a href="#spsutil-020-dev" class="anchor"></a>spsUtil 0.2.0 Dev<small> Unreleased </small>
+<a href="#spsutil-020" class="anchor"></a>spsUtil 0.2.0<small> Unreleased </small>
 </h1>
 <div id="new-feature" class="section level2">
 <h2 class="hasAnchor">
@@ -125,6 +125,27 @@
 <ul>
 <li>
 <code>spsOption</code> has a new argument <code>.list</code>: set more than one options a time by passing a list of options and their values to it.</li>
+<li>New function <code>simpleStack</code>, a simple stack data structure with methods in R6 class. Methods include <code>pop</code>, <code>push</code> and more.</li>
+<li>New function <code>historyStack</code>, a stack data structure to store history steps in R6 class. Similar to browser, word editor or image editor history, stored data can be moved forward or backward by step(s).</li>
+<li>New in-line operation functions <code>inc</code>, <code>mult</code>, <code>divi</code>, which are equivalent of <code>1 += 1</code>, <code>1 *= 2</code>, <code>i /= 2</code> in other programming languages.</li>
+<li>New function <code>timeout</code>, run expressions with time limits.</li>
+<li>
+<code>checkNameSpace</code> has new arguments, <code>time_out</code> and <code>on_timeout</code>. This handles if the installed package list to large and waiting time is too long. Instead of waiting, when times out, directly return all checking packages as missing, but can be customize to other behavior as well.</li>
+</ul>
+</div>
+<div id="minor-change" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-change" class="anchor"></a>Minor Change</h2>
+<ul>
+<li>
+<code>emptyIsFalse</code> now named <code>notFalsy</code> and its opposite is <code>isFalsy</code>, old name <code>emptyIsFalse</code> still reminds in the package.</li>
+</ul>
+</div>
+<div id="bug-fix" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fix" class="anchor"></a>Bug fix</h2>
+<ul>
+<li>Fix NA bugs in <code>emptyIsFalse</code>.</li>
 </ul>
 </div>
 </div>
@@ -141,9 +162,9 @@
 <li>Rewrite <code>checkNameSpace</code> so it does not actually load the package namespace files. This has reduced RAM usage a lot.</li>
 </ul>
 </div>
-<div id="minor-change" class="section level2">
+<div id="minor-change-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-change" class="anchor"></a>Minor change</h2>
+<a href="#minor-change-1" class="anchor"></a>Minor change</h2>
 <ul>
 <li><p><code>msg</code>’s <code>.other_color</code> argument default has changed to <code>NULL</code>. When it is <code>NULL</code>, use no color decoration.</p></li>
 <li><p><code>remove_ANSI</code> now works on a vector of characters.</p></li>
