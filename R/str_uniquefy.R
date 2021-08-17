@@ -23,11 +23,11 @@ strUniquefy <- function(x, sep_b="_", sep_a = "", mark_first = TRUE) {
     stopifnot(is.character(sep_b) && length(sep_b) == 1)
     stopifnot(is.character(sep_a) && length(sep_a) == 1)
     stopifnot(is.logical(mark_first) && length(mark_first) == 1)
-    ave(x, x, FUN=function(x) if (length(x) > 1) {
-        if(!mark_first) c(x[1], paste0(x[1], sep_b, seq_along(x)[-1] - 1, sep_a))
-        else paste0(x[1], sep_b, seq_along(x), sep_a)
+    ave(x, x, FUN=function(i) if (length(i) > 1) {
+        if(!mark_first) c(i[1], paste0(i[1], sep_b, seq_along(i)[-1] - 1, sep_a))
+        else paste0(i[1], sep_b, seq_along(i), sep_a)
     } else {
-        x[1]
+        i[1]
     }) %>% as.character()
 }
 
