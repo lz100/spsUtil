@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spsUtil</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.99</span>
       </span>
     </div>
 
@@ -115,13 +115,32 @@
       <small>Source: <a href='https://github.com/lz100/spsUtil/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="spsutil-020" class="section level1">
-<h1 class="page-header" data-toc-text="0.2.0">
-<a href="#spsutil-020" class="anchor"></a>spsUtil 0.2.0<small> Unreleased </small>
+    <div id="spsutil-0299-dev" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.99">
+<a href="#spsutil-0299-dev" class="anchor"></a>spsUtil 0.2.99 Dev<small> Unreleased </small>
 </h1>
 <div id="new-feature" class="section level2">
 <h2 class="hasAnchor">
 <a href="#new-feature" class="anchor"></a>New feature</h2>
+<ul>
+<li>New function <code>strUniquefy</code>: takes a string or numeric vector and found all duplicated elements and add an index to the end to make sure all elements are unique.</li>
+</ul>
+</div>
+<div id="minor-change" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-change" class="anchor"></a>Minor Change</h2>
+<ul>
+<li>Use faster <code><a href="https://rdrr.io/r/base/zpackages.html">.packages(TRUE)</a></code> method in <code>checkNamespace</code> to find installed packages.</li>
+</ul>
+</div>
+</div>
+    <div id="spsutil-020" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.0">
+<a href="#spsutil-020" class="anchor"></a>spsUtil 0.2.0<small> 2021-08-11 </small>
+</h1>
+<div id="new-feature-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-feature-1" class="anchor"></a>New feature</h2>
 <ul>
 <li>
 <code>spsOption</code> has a new argument <code>.list</code>: set more than one options a time by passing a list of options and their values to it.</li>
@@ -133,9 +152,9 @@
 <code>checkNameSpace</code> has new arguments, <code>time_out</code> and <code>on_timeout</code>. This handles if the installed package list to large and waiting time is too long. Instead of waiting, when times out, directly return all checking packages as missing, but can be customize to other behavior as well.</li>
 </ul>
 </div>
-<div id="minor-change" class="section level2">
+<div id="minor-change-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-change" class="anchor"></a>Minor Change</h2>
+<a href="#minor-change-1" class="anchor"></a>Minor Change</h2>
 <ul>
 <li>
 <code>emptyIsFalse</code> now named <code>notFalsy</code> and its opposite is <code>isFalsy</code>, old name <code>emptyIsFalse</code> still reminds in the package.</li>
@@ -162,9 +181,9 @@
 <li>Rewrite <code>checkNameSpace</code> so it does not actually load the package namespace files. This has reduced RAM usage a lot.</li>
 </ul>
 </div>
-<div id="minor-change-1" class="section level2">
+<div id="minor-change-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-change-1" class="anchor"></a>Minor change</h2>
+<a href="#minor-change-2" class="anchor"></a>Minor change</h2>
 <ul>
 <li><p><code>msg</code>’s <code>.other_color</code> argument default has changed to <code>NULL</code>. When it is <code>NULL</code>, use no color decoration.</p></li>
 <li><p><code>remove_ANSI</code> now works on a vector of characters.</p></li>
