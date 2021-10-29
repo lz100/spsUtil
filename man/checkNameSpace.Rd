@@ -9,7 +9,7 @@ checkNameSpace(
   quietly = FALSE,
   from = "CRAN",
   time_out = 1,
-  on_timeout = {     "" }
+  on_timeout = {     FALSE }
 )
 }
 \arguments{
@@ -24,8 +24,9 @@ for output message display purpose}
 there are too many pkgs installed and takes too long to scan the whole list.
 Set this timeout in seconds to prevent the long waiting.}
 
-\item{on_timeout}{expressions, expressions to run when reaches timeout time.
-Default is to return all packages as missing}
+\item{on_timeout}{expressions, call back experssions to run when reaches timeout time.
+Default is return \code{FALSE} as indicating
+that package is missing (we can't find the package).}
 }
 \value{
 vector of strings, of missing package names, \code{character(0)} if no missing
@@ -35,9 +36,7 @@ Help you to check if you have certain packages and
 return missing package names
 }
 \examples{
-if(!identical(Sys.getenv("NOT_CRAN"), "false")){
-    checkNameSpace("ggplot2")
-    checkNameSpace("random_pkg")
-    checkNameSpace("random_pkg", quietly = TRUE)
-}
+checkNameSpace("ggplot2")
+checkNameSpace("random_pkg")
+checkNameSpace("random_pkg", quietly = TRUE)
 }

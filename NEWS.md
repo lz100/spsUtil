@@ -1,3 +1,9 @@
+# spsUtil 0.2.2
+
+## Minor Change
+
+-   `checkNamespace` now uses `find.package` instead of `.packages` function. The latter is known to be expansive. This improves the speed of this function in large library system.
+
 # spsUtil 0.2.1
 
 ## New feature

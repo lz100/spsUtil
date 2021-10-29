@@ -61,27 +61,34 @@ quiet <- function (
 #' @param time_out numeric, how long to wait before reaching the time limit. Sometimes
 #' there are too many pkgs installed and takes too long to scan the whole list.
 #' Set this timeout in seconds to prevent the long waiting.
-#' @param on_timeout expressions, expressions to run when reaches timeout time.
-#' Default is to return all packages as missing
+#' @param on_timeout expressions, call back experssions to run when reaches timeout time.
+#' Default is return `FALSE` as indicating
+#' that package is missing (we can't find the package).
 #' @return vector of strings, of missing package names, `character(0)` if no missing
 #' @export
 #' @examples
-#' if(!identical(Sys.getenv("NOT_CRAN"), "false")){
-#'     checkNameSpace("ggplot2")
-#'     checkNameSpace("random_pkg")
-#'     checkNameSpace("random_pkg", quietly = TRUE)
-#' }
+#' checkNameSpace("ggplot2")
+#' checkNameSpace("random_pkg")
+#' checkNameSpace("random_pkg", quietly = TRUE)
 checkNameSpace <- function(
     packages,
     quietly = FALSE,
     from = "CRAN",
     time_out = 1,
-    on_timeout = {""}
+    on_timeout = {FALSE}
     ){
     stopifnot(is.numeric(time_out) && length(time_out) == 1)
+    stopifnot(is.character(packages))
+    stopifnot(is.logical(quietly) && length(quietly) == 1)
+    stopifnot(is.character(from) && length(from) == 1)
     if (!emptyIsFalse(packages)) return(NULL)
-    pkg_ls <- timeout(.packages(TRUE), on_timeout = on_timeout, time_out = time_out)
-    missing_pkgs <- packages[!packages %in% pkg_ls]
+    check_res <- unlist(lapply(packages, function(pkg) {
+        timeout(
+            emptyIsFalse(find.package(pkg, quiet = TRUE)),
+            on_timeout = on_timeout, time_out = time_out
+        )
+    }))
+    missing_pkgs <- packages[!check_res]
     if (!quietly & assertthat::not_empty(missing_pkgs)) {
         msg(glue("These packages are missing from ",
                  "{from}: {glue_collapse(missing_pkgs, sep = ',')}"), "warning")
