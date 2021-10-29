@@ -1,4 +1,4 @@
-# spsUtil 0.2.99 Dev
+# spsUtil 0.2.1
 
 ## New feature
 
