@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spsUtil</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.99</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -134,7 +134,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>expr</th>
-      <td><p>expressions, wrap them inside <code>{}</code></p></td>
+      <td><p>expressions, wrap them inside <code><a href='https://rdrr.io/r/base/Paren.html'>{}</a></code></p></td>
     </tr>
     <tr>
       <th>time_out</th>
@@ -167,26 +167,33 @@ if this function is called at global level, all returns, assignments inside
 <code>expr</code> will directly go to global environment as well.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># The `try` command in following examples are here to make sure the</span>
-<span class='co'># R CMD check will pass on package check. In a real case, you do not</span>
-<span class='co'># need it.</span>
-
-<span class='co'># default</span>
-<span class='kw'><a href='https://rdrr.io/r/base/try.html'>try</a></span><span class='op'>(</span><span class='fu'>timeout</span><span class='op'>(</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='fl'>0.1</span><span class='op'>)</span><span class='op'>}</span>, time_out <span class='op'>=</span> <span class='fl'>0.01</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Error : Timout reached</div><div class='input'><span class='co'># timeout is evaluating expressions the same level as you call it</span>
-<span class='fu'>timeout</span><span class='op'>(</span><span class='op'>{</span><span class='va'>abc</span> <span class='op'>&lt;-</span> <span class='fl'>123</span><span class='op'>}</span><span class='op'>)</span>
-<span class='co'># so you should get `abc` even outside the function call</span>
-<span class='va'>abc</span>
-</div><div class='output co'>#&gt; [1] 123</div><div class='input'><span class='co'># custom timeout callback</span>
-<span class='fu'>timeout</span><span class='op'>(</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='fl'>0.1</span><span class='op'>)</span><span class='op'>}</span>, time_out <span class='op'>=</span> <span class='fl'>0.01</span>, on_timeout <span class='op'>=</span> <span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>"It takes too long"</span><span class='op'>)</span><span class='op'>}</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "It takes too long"</div><div class='input'><span class='co'># final call back</span>
-<span class='kw'><a href='https://rdrr.io/r/base/try.html'>try</a></span><span class='op'>(</span><span class='fu'>timeout</span><span class='op'>(</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='fl'>0.1</span><span class='op'>)</span><span class='op'>}</span>, time_out <span class='op'>=</span> <span class='fl'>0.01</span>, on_final <span class='op'>=</span> <span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>"some final words"</span><span class='op'>)</span><span class='op'>}</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># on error</span>
-</div><div class='output co'>#&gt; [1] "some final words"
-#&gt; Error : Timout reached</div><div class='input'><span class='fu'>timeout</span><span class='op'>(</span><span class='op'>{</span><span class='fl'>123</span><span class='op'>}</span>, on_final <span class='op'>=</span> <span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>"runs even success"</span><span class='op'>)</span><span class='op'>}</span><span class='op'>)</span>  <span class='co'># on success</span>
-</div><div class='output co'>#&gt; [1] "runs even success"</div><div class='output co'>#&gt; [1] 123</div><div class='input'><span class='co'># assign to value</span>
-<span class='va'>my_val</span> <span class='op'>&lt;-</span> <span class='fu'>timeout</span><span class='op'>(</span><span class='op'>{</span><span class='fl'>10</span> <span class='op'>+</span> <span class='fl'>1</span><span class='op'>}</span><span class='op'>)</span>
-<span class='va'>my_val</span>
-</div><div class='output co'>#&gt; [1] 11</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># The `try` command in following examples are here to make sure the</span></span>
+<span class='r-in'><span class='co'># R CMD check will pass on package check. In a real case, you do not</span></span>
+<span class='r-in'><span class='co'># need it.</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># default</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/try.html'>try</a></span><span class='op'>(</span><span class='fu'>timeout</span><span class='op'>(</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='fl'>0.1</span><span class='op'>)</span><span class='op'>}</span>, time_out <span class='op'>=</span> <span class='fl'>0.01</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Error : Timout reached</span>
+<span class='r-in'><span class='co'># timeout is evaluating expressions the same level as you call it</span></span>
+<span class='r-in'><span class='fu'>timeout</span><span class='op'>(</span><span class='op'>{</span><span class='va'>abc</span> <span class='op'>&lt;-</span> <span class='fl'>123</span><span class='op'>}</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># so you should get `abc` even outside the function call</span></span>
+<span class='r-in'><span class='va'>abc</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 123</span>
+<span class='r-in'><span class='co'># custom timeout callback</span></span>
+<span class='r-in'><span class='fu'>timeout</span><span class='op'>(</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='fl'>0.1</span><span class='op'>)</span><span class='op'>}</span>, time_out <span class='op'>=</span> <span class='fl'>0.01</span>, on_timeout <span class='op'>=</span> <span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>"It takes too long"</span><span class='op'>)</span><span class='op'>}</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "It takes too long"</span>
+<span class='r-in'><span class='co'># final call back</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/try.html'>try</a></span><span class='op'>(</span><span class='fu'>timeout</span><span class='op'>(</span><span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='fl'>0.1</span><span class='op'>)</span><span class='op'>}</span>, time_out <span class='op'>=</span> <span class='fl'>0.01</span>, on_final <span class='op'>=</span> <span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>"some final words"</span><span class='op'>)</span><span class='op'>}</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># on error</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "some final words"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Error : Timout reached</span>
+<span class='r-in'><span class='fu'>timeout</span><span class='op'>(</span><span class='op'>{</span><span class='fl'>123</span><span class='op'>}</span>, on_final <span class='op'>=</span> <span class='op'>{</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>"runs even success"</span><span class='op'>)</span><span class='op'>}</span><span class='op'>)</span>  <span class='co'># on success</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "runs even success"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 123</span>
+<span class='r-in'><span class='co'># assign to value</span></span>
+<span class='r-in'><span class='va'>my_val</span> <span class='op'>&lt;-</span> <span class='fu'>timeout</span><span class='op'>(</span><span class='op'>{</span><span class='fl'>10</span> <span class='op'>+</span> <span class='fl'>1</span><span class='op'>}</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>my_val</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 11</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

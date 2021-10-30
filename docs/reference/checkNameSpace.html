@@ -73,7 +73,7 @@ return missing package names" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spsUtil</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.99</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -128,7 +128,7 @@ return missing package names</p>
   quietly <span class='op'>=</span> <span class='cn'>FALSE</span>,
   from <span class='op'>=</span> <span class='st'>"CRAN"</span>,
   time_out <span class='op'>=</span> <span class='fl'>1</span>,
-  on_timeout <span class='op'>=</span> <span class='op'>{</span>     <span class='st'>""</span> <span class='op'>}</span>
+  on_timeout <span class='op'>=</span> <span class='op'>{</span>     <span class='cn'>FALSE</span> <span class='op'>}</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -155,22 +155,26 @@ Set this timeout in seconds to prevent the long waiting.</p></td>
     </tr>
     <tr>
       <th>on_timeout</th>
-      <td><p>expressions, expressions to run when reaches timeout time.
-Default is to return all packages as missing</p></td>
+      <td><p>expressions, call back experssions to run when reaches timeout time.
+Default is return <code>FALSE</code> as indicating
+that package is missing (we can't find the package).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>vector of strings, of missing package names, <code><a href='https://rdrr.io/r/base/character.html'>character(0)</a></code> if no missing</p>
+    <p>vector of strings, of missing package names, <code>character(0)</code> if no missing</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"NOT_CRAN"</span><span class='op'>)</span>, <span class='st'>"false"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
-    <span class='fu'>checkNameSpace</span><span class='op'>(</span><span class='st'>"ggplot2"</span><span class='op'>)</span>
-    <span class='fu'>checkNameSpace</span><span class='op'>(</span><span class='st'>"random_pkg"</span><span class='op'>)</span>
-    <span class='fu'>checkNameSpace</span><span class='op'>(</span><span class='st'>"random_pkg"</span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: <span style='color: #FFAF00; font-weight: bold;'>[WARNING] 2021-08-18 01:58:47 These packages are missing from CRAN: ggplot2</span></span></div><div class='output co'>#&gt; <span class='warning'>Warning: <span style='color: #FFAF00; font-weight: bold;'>[WARNING] 2021-08-18 01:58:47 These packages are missing from CRAN: random_pkg</span></span></div><div class='output co'>#&gt; [1] "random_pkg"</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>checkNameSpace</span><span class='op'>(</span><span class='st'>"ggplot2"</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span><span style='color: #FFAF00; font-weight: bold;'>[WARNING] 2021-10-30 02:04:07 These packages are missing from CRAN: ggplot2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "ggplot2"</span>
+<span class='r-in'><span class='fu'>checkNameSpace</span><span class='op'>(</span><span class='st'>"random_pkg"</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span><span style='color: #FFAF00; font-weight: bold;'>[WARNING] 2021-10-30 02:04:07 These packages are missing from CRAN: random_pkg</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "random_pkg"</span>
+<span class='r-in'><span class='fu'>checkNameSpace</span><span class='op'>(</span><span class='st'>"random_pkg"</span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "random_pkg"</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
