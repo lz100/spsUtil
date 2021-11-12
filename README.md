@@ -15,8 +15,9 @@ install.packages("spsUtil")
 Develop version:
 
 ```r
-if (!requireNamespace("spsUtil", quietly=TRUE))
-    remotes::install_github("lz100/spsUtil")
+if (!requireNamespace("remotes", quietly=TRUE))
+    install.packages("remotes")
+remotes::install_github("lz100/spsUtil")
 ```
 
 ## User manual 
